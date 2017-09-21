@@ -13,13 +13,13 @@ class App extends Component {
             };
          }
     componentDidMount(){
-        fetch("/getFollowers/"+userName, {method: "GET", headers:{accept:"application/json"}})
+        fetch("/getFollowers/"+this.userName, {method: "GET", headers:{accept:"application/json"}})
             .then((res)=> {
                 console.log("rest en index");
                 if(res.ok)
                     return res.json();
             })
-            .then((json) =>{
+            .then((followers) =>{
                 this.setState({
                     followers : followers
                 })
@@ -34,7 +34,7 @@ onSearch(user){
             <div className="Followers">
             <h1>Followers</h1>
                 <br/>
-                <FollowersList followers={this.state.onSearch.bind(this)}/>
+                <FollowersList followers={this.state.onSearch.bind(this)} user={this.state.userName}/>
             </div>
         );
     }
