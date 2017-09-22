@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import FollowersList from "./FollowersList.js";
+import SearchBox from "./SearchBox";
 
 class App extends Component {
   
@@ -9,35 +10,66 @@ class App extends Component {
         super(props);
             this.state={
                 followers:[],
-                userName :"juanpa10"
+                userName :"",
+                preUsuario:"hello",
+                post: this.props.data
             };
          }
     componentDidMount(){
-        fetch("/getFollowers/"+this.userName, {method: "GET", headers:{accept:"application/json"}})
+        console.log("ajá mirá tú esa viana: "+this.state.followers)
+        fetch("/getFollowers/"+this.state.userName+"/", {method: "GET", headers:{accept:"application/json"}})
             .then((res)=> {
-                console.log("rest en index");
-                if(res.ok)
-                    return res.json();
+                if(res.ok){
+                    
+                    return res.json();}
             })
-            .then((followers) =>{
-                this.setState({
+           .then((followers) =>{
+               this.setState({
                     followers : followers
                 })
             })
+
     }
 
-onSearch(user){
-  console.log(user);
-}
+
+ handleChange(event) { 
+    this.setState({userName: event.target.value});
+    console.log( this.state.userName);     
+  }
+  clickImagen(){
+      console.log("imagen clickeada");
+      this.handleClick();
+  }
     render(){
+       // var preUsuario = this.state.preUsuario;
         return(
             <div className="Followers">
             <h1>Followers</h1>
+                <div>
+                <input type="text"  onChange={this.handleChange.bind(this)} />
+                <button 
+                    className="button comments" 
+                    onClick={ this.handleClick.bind(this)}>Button</button>
+                </div>
                 <br/>
-                <FollowersList followers={this.state.onSearch.bind(this)} user={this.state.userName}/>
+                <FollowersList followers= {this.state.followers}/>
             </div>
         );
     }
+     handleClick() {
+          console.log("ajá mirá tú esa viana: "+this.state.followers)
+        fetch("/getFollowers/"+this.state.userName+"/", {method: "GET", headers:{accept:"application/json"}})
+            .then((res)=> {
+                if(res.ok){
+                    return res.json();}
+            })
+           .then((followers) =>{
+               this.setState({
+                    followers : followers
+                })
+            })
+  }
 }
 
 export default App;
+//followers={this.state.onSearch.bind(this)} user={this.state.userName}/

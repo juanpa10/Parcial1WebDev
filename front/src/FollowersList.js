@@ -14,6 +14,9 @@ class FollowersList extends Component {
             return <Follower follower ={t} key={i}/>
         });
     }
+    clickImagen(){
+        this.props.clickImagen;
+    }
     
     render(){
         return(<div>

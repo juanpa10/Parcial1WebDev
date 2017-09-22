@@ -3,22 +3,18 @@ var router = express.Router();
 var GitHubApi = require("github");
 
 /* GET home page. */
-router.get('/getFollowers/:users', function(req,res, next) {
+router.get('/getFollowers/:username', function(req,res) {
 
  
 var github = new GitHubApi({
     // optional
     debug: true,
 });
- 
-// TODO: optional authentication here depending on desired endpoints. See below in README.
- 
+  
 github.users.getFollowingForUser({
-   // username: req.params.user
-}, function(err, data) {
-
-    console.log("holaaaa: "+data);
-    res.json(data);
+  username: req.params.username
+}, function(err, data) { 
+    res.json(data.data);
 });
 });
 
